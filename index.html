@@ -127,11 +127,8 @@
         <div class="form-container">
             <h3>Enter your details to watch the FREE training</h3>
             
-            <!-- ✅ HIDDEN IFRAME: Prevents page reload and redirects to your YouTube video -->
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location.href='https://youtu.be/-FbOFkZK-YE';}"></iframe>
-            
-            <!-- ✅ HTML FORM: Submits directly to Apps Script -->
-            <form id="leadForm" action="https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+            <!-- ✅ THE FOOLPROOF FORM -->
+            <form id="leadForm" action="https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec" method="GET">
                 <input type="hidden" name="type" value="add_lead">
                 <input type="text" name="name" placeholder="First Name" required>
                 <input type="tel" name="phone" placeholder="WhatsApp Number" required>
@@ -160,9 +157,5 @@
         &copy; 2026 Igiowo Diamond. All rights reserved.
     </footer>
 
-    <!-- ✅ THIS SCRIPT STARTS THE IFRAME ON SUBMIT -->
-    <script>
-        let submitted = false;
-    </script>
 </body>
 </html>
