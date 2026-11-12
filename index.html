@@ -126,11 +126,11 @@
         
         <div class="form-container">
             <h3>Enter your details to watch the FREE training</h3>
-            <!-- The form action will be updated in the next step -->
-            <form action="#" method="POST">
-                <input type="text" name="name" placeholder="First Name" required>
-                <input type="tel" name="phone" placeholder="WhatsApp Number" required>
-                <button type="submit">Watch The Training Now ➔</button>
+            <!-- Added an ID to the form so our script can find it -->
+            <form id="leadForm">
+                <input type="text" id="firstName" placeholder="First Name" required>
+                <input type="tel" id="phone" placeholder="WhatsApp Number" required>
+                <button type="submit" id="submitBtn">Watch The Training Now ➔</button>
             </form>
         </div>
     </div>
@@ -155,5 +155,38 @@
         &copy; 2026 Igiowo Diamond. All rights reserved.
     </footer>
 
+    <!-- ✅ THE MAGIC SCRIPT TO SEND DATA TO APPS SCRIPT -->
+    <script>
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            
+            const btn = document.getElementById('submitBtn');
+            const name = document.getElementById('firstName').value;
+            const phone = document.getElementById('phone').value;
+            
+            // Change button text to show it's working
+            btn.innerText = "Saving...";
+            btn.disabled = true;
+            
+            // Your Apps Script URL
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec';
+            
+            // Build the URL with the data (Using GET to avoid the 405 Error)
+            const finalUrl = `${scriptUrl}?type=add_lead&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`;
+
+            fetch(finalUrl, {
+                method: 'GET'
+            })
+            .then(response => {
+                // ✅ CHANGE THIS LINK TO YOUR ACTUAL TRAINING VIDEO
+                window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; 
+            })
+            .catch(error => {
+                alert("There was a network error. Please try again.");
+                btn.innerText = "Watch The Training Now ➔";
+                btn.disabled = false;
+            });
+        });
+    </script>
 </body>
-  </html>
+    </html>
