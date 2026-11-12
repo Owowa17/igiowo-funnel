@@ -126,11 +126,16 @@
         
         <div class="form-container">
             <h3>Enter your details to watch the FREE training</h3>
-            <!-- Added an ID to the form so our script can find it -->
-            <form id="leadForm">
-                <input type="text" id="firstName" placeholder="First Name" required>
-                <input type="tel" id="phone" placeholder="WhatsApp Number" required>
-                <button type="submit" id="submitBtn">Watch The Training Now ➔</button>
+            
+            <!-- ✅ HIDDEN IFRAME: Prevents page reload and redirects to your YouTube video -->
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location.href='https://youtu.be/-FbOFkZK-YE';}"></iframe>
+            
+            <!-- ✅ HTML FORM: Submits directly to Apps Script -->
+            <form id="leadForm" action="https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+                <input type="hidden" name="type" value="add_lead">
+                <input type="text" name="name" placeholder="First Name" required>
+                <input type="tel" name="phone" placeholder="WhatsApp Number" required>
+                <button type="submit">Watch The Training Now ➔</button>
             </form>
         </div>
     </div>
@@ -155,34 +160,9 @@
         &copy; 2026 Igiowo Diamond. All rights reserved.
     </footer>
 
-    <!-- ✅ THE MAGIC SCRIPT TO SEND DATA TO APPS SCRIPT -->
+    <!-- ✅ THIS SCRIPT STARTS THE IFRAME ON SUBMIT -->
     <script>
-    document.getElementById('leadForm').addEventListener('submit', function(e) {
-        e.preventDefault(); 
-        
-        const btn = document.getElementById('submitBtn');
-        const name = document.getElementById('firstName').value;
-        const phone = document.getElementById('phone').value;
-        
-        btn.innerText = "Saving...";
-        btn.disabled = true;
-        
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec';
-        const finalUrl = `${scriptUrl}?type=add_lead&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`;
-
-        fetch(finalUrl, {
-            method: 'GET'
-        })
-        .then(response => {
-            // ✅ YOUR YOUTUBE LINK
-            window.location.replace("https://youtu.be/-FbOFkZK-YE"); 
-        })
-        .catch(error => {
-            alert("There was a network error. Please try again.");
-            btn.innerText = "Watch The Training Now ➔";
-            btn.disabled = false;
-        });
-    });
-</script>
+        let submitted = false;
+    </script>
 </body>
-    </html>
+</html>
