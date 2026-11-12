@@ -157,36 +157,32 @@
 
     <!-- ✅ THE MAGIC SCRIPT TO SEND DATA TO APPS SCRIPT -->
     <script>
-        document.getElementById('leadForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevents the page from refreshing
-            
-            const btn = document.getElementById('submitBtn');
-            const name = document.getElementById('firstName').value;
-            const phone = document.getElementById('phone').value;
-            
-            // Change button text to show it's working
-            btn.innerText = "Saving...";
-            btn.disabled = true;
-            
-            // Your Apps Script URL
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec';
-            
-            // Build the URL with the data (Using GET to avoid the 405 Error)
-            const finalUrl = `${scriptUrl}?type=add_lead&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`;
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        
+        const btn = document.getElementById('submitBtn');
+        const name = document.getElementById('firstName').value;
+        const phone = document.getElementById('phone').value;
+        
+        btn.innerText = "Saving...";
+        btn.disabled = true;
+        
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec';
+        const finalUrl = `${scriptUrl}?type=add_lead&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`;
 
-            fetch(finalUrl, {
-                method: 'GET'
-            })
-            .then(response => {
-                // ✅ CHANGE THIS LINK TO YOUR ACTUAL TRAINING VIDEO
-                window.location.href = "https://youtu.be/-FbOFkZK-YE?si=qtYt85Z6MjVwk-E6"; 
-            })
-            .catch(error => {
-                alert("There was a network error. Please try again.");
-                btn.innerText = "Watch The Training Now ➔";
-                btn.disabled = false;
-            });
+        fetch(finalUrl, {
+            method: 'GET'
+        })
+        .then(response => {
+            // ✅ YOUR YOUTUBE LINK
+            window.location.replace("https://youtu.be/-FbOFkZK-YE"); 
+        })
+        .catch(error => {
+            alert("There was a network error. Please try again.");
+            btn.innerText = "Watch The Training Now ➔";
+            btn.disabled = false;
         });
-    </script>
+    });
+</script>
 </body>
     </html>
