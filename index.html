@@ -55,33 +55,30 @@
     <script>
   document.getElementById('leadForm').addEventListener('submit', function (e) {
     e.preventDefault();
-
     const btn = document.getElementById('submitBtn');
     const name = document.getElementById('firstName').value.trim();
     const phone = document.getElementById('phone').value.trim();
-
     btn.innerText = "Saving...";
     btn.disabled = true;
 
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec';
-    const finalUrl = scriptUrl + '?type=add_lead&name=' + encodeURIComponent(name) +
-                     '&phone=' + encodeURIComponent(phone) + '&t=' + Date.now();
-
-    let redirected = false;
+    let done = false;
     const go = function () {
-      if (redirected) return;
-      redirected = true;
+      if (done) return;
+      done = true;
       window.location.replace("https://youtu.be/-FbOFkZK-YE");
     };
 
-    // Redirect only after the request finishes (or after 4s as a safety net)
-    fetch(finalUrl, { method: 'GET', mode: 'no-cors', keepalive: true })
-      .then(go)
-      .catch(function () {
-        // Fallback: image beacon
-        new Image().src = finalUrl;
-        setTimeout(go, 1500);
-      });
+    window.leadDone = function (r) {
+      console.log('Lead result:', r);
+      go();
+    };
+
+    const s = document.createElement('script');
+    s.src = scriptUrl + '?type=add_lead&name=' + encodeURIComponent(name) +
+            '&phone=' + encodeURIComponent(phone) + '&callback=leadDone&t=' + Date.now();
+    s.onerror = go;
+    document.body.appendChild(s);
 
     setTimeout(go, 4000);
   });
