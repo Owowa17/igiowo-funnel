@@ -52,6 +52,7 @@
 
     <footer>&copy; 2026 Igiowo Diamond. All rights reserved.</footer>
 
+    <!-- ✅ THE IMAGE TRICK SCRIPT -->
     <script>
         document.getElementById('leadForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
@@ -66,20 +67,14 @@
             const scriptUrl = 'https://script.google.com/macros/s/AKfycbwLg9hN5JdLlSzXoREAB79js6R1MeibQM3NJ1RIwIhNHiF8WzrFwhCjBtJ8zrJ1BWEi/exec';
             const finalUrl = `${scriptUrl}?type=add_lead&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`;
 
-            // ✅ Sends data silently to Google Sheets
-            fetch(finalUrl, {
-                method: 'GET',
-                mode: 'no-cors' 
-            })
-            .then(response => {
-                // ✅ Redirects the user to YouTube from the website (not Apps Script)
+            // Create a hidden image tag. The browser MUST load it.
+            const img = new Image();
+            img.src = finalUrl;
+
+            // Wait 1.5 seconds to make sure the image request sends, then redirect.
+            setTimeout(function() {
                 window.location.replace("https://youtu.be/-FbOFkZK-YE"); 
-            })
-            .catch(error => {
-                alert("There was a network error. Please try again.");
-                btn.innerText = "Watch The Training Now ➔";
-                btn.disabled = false;
-            });
+            }, 1500);
         });
     </script>
 </body>
